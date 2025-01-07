@@ -607,7 +607,7 @@ class SmsController extends FormController
             $entity = clone $entity;
         }
 
-        return $this->newAction($request, $entity);
+        return $this->newAction($request, $entity); 
     }
 
     /**
@@ -807,7 +807,8 @@ class SmsController extends FormController
      * CSTM: Handle File Upload
      */
     private function handleFileUpload($file, Request $request)
-    {
+    {   
+        // Allowed file types and maximum file size
         $allowedTypes = [
             // Image types
             'image/jpeg', 'image/jpg', 'image/png', 'image/gif',
@@ -856,6 +857,7 @@ class SmsController extends FormController
                 $uploadDir = 'media/files/'; // Default for other file types
             }
 
+            // Generate a unique file name
             $fileName = uniqid() . '.' . $file->guessExtension();
             $filePath = $uploadDir . $fileName;
 
@@ -866,6 +868,7 @@ class SmsController extends FormController
             $baseUrl = $request->getSchemeAndHttpHost();
             $publicUrl = $baseUrl . '/' . $filePath;
 
+            // Return the public URL
             return ['success' => true, 'publicUrl' => $publicUrl];
         }else {
             return ['success' => false, 'error' => 'No file uploaded.'];
