@@ -829,6 +829,7 @@ class SmsController extends FormController
             'application/vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.spreadsheet', // OpenDocument
         ];
         
+        // Maximum file size allowed
         $maxSize = 5 * 1024 * 1024; // 5MB
         
         // Check if the MIME type is valid
