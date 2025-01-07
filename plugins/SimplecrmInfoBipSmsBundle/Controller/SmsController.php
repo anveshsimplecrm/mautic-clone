@@ -115,7 +115,7 @@ class SmsController extends FormController
         }
         $session->set('mautic.sms.page', $page);
 
-        // CSTM - start
+        // CSTM - start IntegrationHelper object
         $integration = $integrationHelper->getIntegrationObject('InfoBip');
         // CSTM - end
 
