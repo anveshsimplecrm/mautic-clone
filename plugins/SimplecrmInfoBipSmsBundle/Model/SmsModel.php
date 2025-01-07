@@ -154,7 +154,6 @@ class SmsModel extends FormModel implements AjaxLookupModelInterface
      */
     public function sendSms(Sms $sms, $sendTo, $options = [], array &$leads = []): array
     {
-
         $channel = $options['channel'] ?? null;
         $listId  = $options['listId'] ?? null;
 
