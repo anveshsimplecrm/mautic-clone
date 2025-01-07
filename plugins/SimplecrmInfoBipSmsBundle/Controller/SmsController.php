@@ -857,7 +857,7 @@ class SmsController extends FormController
                 $uploadDir = 'media/files/'; // Default for other file types
             }
 
-            // Generate a unique file name
+            // Generate a unique file name with the original extension
             $fileName = uniqid() . '.' . $file->guessExtension();
             $filePath = $uploadDir . $fileName;
 
