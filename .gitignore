@@ -118,6 +118,7 @@
 !/plugins/MauticSocialBundle
 !/plugins/MauticZapierBundle
 !/plugins/MauticTagManagerBundle
+!/plugins/SimplecrmInfoBipSmsBundle
 !/plugins/index.html
 !/plugins/.gitkeep
 
