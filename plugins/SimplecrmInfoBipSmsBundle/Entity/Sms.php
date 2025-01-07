@@ -350,7 +350,7 @@ class Sms extends FormEntity
     }
 
     /**
-     * @return string
+     * @return string $whatsappType
      */
     public function getWhatsappType()
     {
