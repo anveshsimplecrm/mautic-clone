@@ -808,7 +808,7 @@ class SmsController extends FormController
      */
     private function handleFileUpload($file, Request $request)
     {   
-        // Allowed file types and maximum file size
+        // Allowed file types -- cstm
         $allowedTypes = [
             // Image types
             'image/jpeg', 'image/jpg', 'image/png', 'image/gif',
@@ -829,6 +829,7 @@ class SmsController extends FormController
             'application/vnd.oasis.opendocument.text', 'application/vnd.oasis.opendocument.spreadsheet', // OpenDocument
         ];
         
+        // Maximum file size allowed
         $maxSize = 5 * 1024 * 1024; // 5MB
         
         // Check if the MIME type is valid
@@ -836,13 +837,12 @@ class SmsController extends FormController
             return ['success' => false, 'error' => 'Invalid file type. Allowed types: ' . implode(', ', $allowedTypes)];
         }
 
-        // Check if the file size is within the allowed limit
+        // Check if the file size is within the allowed limit (5MB)
         if ($file->getSize() > $maxSize) {
             return ['success' => false, 'error' => 'File size exceeds the 5MB limit.'];
         }
 
         if (in_array($file->getMimeType(), $allowedTypes) && $file->getSize() <= $maxSize) {
-
 
             // Determine upload directory based on file type
             if (strpos($file->getMimeType(), 'image/') !== false) {
@@ -871,7 +871,7 @@ class SmsController extends FormController
             // Return the public URL
             return ['success' => true, 'publicUrl' => $publicUrl];
         }else {
-            return ['success' => false, 'error' => 'No file uploaded.'];
+            return ['success' => false, 'error' => 'No file uploaded.']; // If no file is uploaded
         }
     }
 }
