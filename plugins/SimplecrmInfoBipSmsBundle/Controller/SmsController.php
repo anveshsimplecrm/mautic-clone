@@ -837,13 +837,12 @@ class SmsController extends FormController
             return ['success' => false, 'error' => 'Invalid file type. Allowed types: ' . implode(', ', $allowedTypes)];
         }
 
-        // Check if the file size is within the allowed limit
+        // Check if the file size is within the allowed limit (5MB)
         if ($file->getSize() > $maxSize) {
             return ['success' => false, 'error' => 'File size exceeds the 5MB limit.'];
         }
 
         if (in_array($file->getMimeType(), $allowedTypes) && $file->getSize() <= $maxSize) {
-
 
             // Determine upload directory based on file type
             if (strpos($file->getMimeType(), 'image/') !== false) {
