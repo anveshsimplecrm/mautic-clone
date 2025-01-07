@@ -1,0 +1,17 @@
+{
+    "name": "mautic/plugin-simplecrminfobip",
+    "description": "SimpleCRM InfoBip Plugin",
+    "type": "mautic-plugin",
+    "keywords": [
+        "mautic",
+        "plugin",
+        "integration"
+    ],
+    "extra": {
+        "install-directory-name": "SimplecrmInfoBipSmsBundle"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "mautic/core-lib": "^5.0"
+    }
+}
