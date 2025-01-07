@@ -152,6 +152,7 @@ class Sms extends FormEntity
         $this->stats = new ArrayCollection();
     }
 
+    // loadMetadata - start
     public static function loadMetadata(ORM\ClassMetadata $metadata): void
     {
         $builder = new ClassMetadataBuilder($metadata);
@@ -340,10 +341,17 @@ class Sms extends FormEntity
         return $this->name;
     }
 
+    /**
+     * @return string
+     */
     public function getMessageType()
     {
         return $this->messageType;
     }
+
+    /**
+     * @return string
+     */
     public function getWhatsappType()
     {
         return $this->whatsappType;
