@@ -808,7 +808,7 @@ class SmsController extends FormController
      */
     private function handleFileUpload($file, Request $request)
     {   
-        // Allowed file types
+        // Allowed file types -- cstm
         $allowedTypes = [
             // Image types
             'image/jpeg', 'image/jpg', 'image/png', 'image/gif',
