@@ -871,7 +871,7 @@ class SmsController extends FormController
             // Return the public URL
             return ['success' => true, 'publicUrl' => $publicUrl];
         }else {
-            return ['success' => false, 'error' => 'No file uploaded.'];
+            return ['success' => false, 'error' => 'No file uploaded.']; // If no file is uploaded
         }
     }
 }
