@@ -7,7 +7,7 @@
 This plugin allows to send SMS messages and WhatsApp Messages through Infobip service provider API.
 
 ## SMS and Whatsapp
-    this is SimpleCRM SMS-WhatsApp plugin for Marketing Instance 
+    this is SimpleCRM SMS-WhatsApp plugin for Marketing Instance ..
     
 ## Synopsis
 
