@@ -1,0 +1,168 @@
+{% extends '@MauticCore/FormTheme/form_simple.html.twig' %}
+{% form_theme form with [
+    '@SimplecrmInfoBipSms/FormTheme/SmsSendList/smssend_list_row.html.twig'
+] %}
+
+{% block mauticContent %}sms{% endblock %}
+{# @var sms \Mautic\SmsBundle\Entity\Sms #}
+{% set type            = sms.getSmsType() %}
+{% set isExisting      = sms.getId() %}
+{% set translationBase = 'mautic.sms' %}
+{% set mauticContent   = 'infobipsms' %}
+
+{% block primaryFormContent %}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.name) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.messageType) }}
+    </div>
+     <div class="col-md-6">
+        {{ form_row(form.whatsappType) }}
+        {{ form_row(form.textSmsAccount) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="characters-count">
+            <label class="control-label" for="" data-toggle="tooltip" data-container="body" data-placement="top" title="" data-original-title="{{ 'mautic.sms.form.nbcharacter.infobox'|trans }}">
+                {{ 'mautic.sms.form.nbcharacter.counter'|trans }}
+                <span class="label label-default" id="sms_nb_char">0</span>
+            </label>
+        </div>
+        {{ form_row(form.message) }}
+        <i class="text-muted">{{ 'mautic.sms.token.dropdown.hint'|trans|purify }}</i>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.whatsappButton) }}
+    </div>
+     <div class="col-md-6">
+        {{ form_row(form.mediaUrl) }}
+    </div>
+</div>
+
+{# cstm -- start #}
+<div class="row">
+    <div class="col-md-6">
+        {{ form_row(form.uploadFile) }}
+        <p id="fileErrorMessage" style="color: red; display: none;">File size exceeds the 5MB limit.</p> <!-- Error message for file size -->
+    </div>
+</div>
+{# cstm -- end #}
+{% endblock %}
+
+{% block rightFormContent %}
+{{ form_row(form.category) }}
+{{ form_row(form.language) }}
+{{ form_row(form.isPublished) }}
+
+<div id="leadList"{% if 'template' == type %} class="hide"{% endif %}>
+    {{ form_row(form.lists) }}
+    {{ form_row(form.publishUp) }}
+    {{ form_row(form.publishDown) }}
+</div>
+
+<div class="hide">
+    {{ form_rest(form) }}
+</div>
+
+{% if (updateSelect is not defined or updateSelect is empty) and not isExisting and not formContainsErrors(form) or type is empty %}
+    {{- include('@MauticCore/Helper/form_selecttype.html.twig',
+        {
+            'item'       : sms,
+            'mauticLang' : {
+                'newListSms'     : 'mautic.sms.type.list.header',
+                'newTemplateSms' : 'mautic.sms.type.template.header',
+            },
+            'typePrefix'         : 'sms',
+            'cancelUrl'          : 'mautic_sms_index',
+            'header'             : 'mautic.sms.type.header',
+            'typeOneHeader'      : 'mautic.sms.type.template.header',
+            'typeOneIconClass'   : 'fa-cube',
+            'typeOneDescription' : 'mautic.sms.type.template.description',
+            'typeOneDifferences' : '',
+            'typeOneOnClick'     : "Mautic.selectSmsType('template');",
+            'typeTwoHeader'      : 'mautic.sms.type.list.header',
+            'typeTwoIconClass'   : 'fa-pie-chart',
+            'typeTwoDescription' : 'mautic.sms.type.list.description',
+            'typeTwoDifferences' : '',
+            'typeTwoOnClick'     : "Mautic.selectSmsType('list');",
+        }
+    ) -}}
+{% endif %}
+
+<script>
+    mQuery(document).ready(function () {
+        var sms_messageType = mQuery("#sms_messageType").val();
+        var sms_whatsappType = mQuery("#sms_whatsappType").val();
+        showwhatsappfield(sms_messageType);
+        showhidemedia(sms_whatsappType);
+        
+        mQuery('#sms_message').attr('maxlength', '500');
+
+        // File size validation
+        mQuery("#sms_uploadFile").change(function() {
+            var file = this.files[0];
+            var maxSize = 5 * 1024 * 1024; // 5MB in bytes
+
+            if (file && file.size > maxSize) {
+                mQuery("#fileErrorMessage").show();
+                this.value = ''; // Clear the file input
+            } else {
+                mQuery("#fileErrorMessage").hide();
+            }
+        });
+
+    });
+
+    function showwhatsappfield(str) {
+
+        if (str == 'Text') {
+            mQuery("#sms_whatsappType").parent().parent().hide();
+            mQuery("#sms_whatsappButton").parent().parent().hide();
+            mQuery("#sms_mediaUrl").parent().hide();
+            mQuery("#sms_uploadFile").parent().hide(); //cstm
+            mQuery("#sms_textSmsAccount").parent().parent().show();
+
+            var $sms_textSmsAccount = mQuery("#sms_textSmsAccount");
+
+        } else if(str == 'WhatsApp'){
+            mQuery("#sms_textSmsAccount").parent().parent().hide();
+            mQuery("#sms_whatsappType").parent().parent().show();
+            mQuery("#sms_whatsappButton").parent().parent().show();
+            mQuery("#sms_mediaUrl").parent().show();
+            mQuery("#sms_uploadFile").parent().show(); //cstm
+        }else{
+            mQuery("#sms_textSmsAccount").parent().parent().hide();
+            mQuery("#sms_whatsappType").parent().parent().hide();
+            mQuery("#sms_whatsappButton").parent().parent().hide();
+            mQuery("#sms_mediaUrl").parent().hide();
+            mQuery("#sms_uploadFile").parent().hide(); //cstm
+        }
+
+    }
+
+    function myFunction(item, index) {
+        text += index + ": " + item + "<br>"; 
+    }
+    function showhidemedia(str) {
+        if (str == 'HSM') {
+            mQuery("#sms_mediaUrl").parent().parent().hide();
+            mQuery("#sms_uploadFile").parent().parent().hide(); //cstm
+        } else {
+            mQuery("#sms_mediaUrl").parent().parent().show();
+            mQuery("#sms_uploadFile").parent().parent().show(); //cstm
+        }
+    }
+</script>
+
+{% endblock %}
